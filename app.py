@@ -16,16 +16,22 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# 2. BURGUNDY EDITORIAL DESIGN
+# 2. BROWN EDITORIAL DESIGN
 # --------------------------------------------------
 
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Pinyon+Script&family=Cormorant+Garamond:wght@400;500;600;700&display=swap');
 
+/* Global App Styling */
 .stApp {
-    background: #F8F5F1;
-    color: #633247;
+    background: #FDFBF7;
+    color: #4A2E2B; /* Dark Brown */
+}
+
+/* Force all general text elements to brown */
+p, div, span, label, li, h1, h2, h3, h4, h5, h6 {
+    color: #4A2E2B !important;
 }
 
 .block-container {
@@ -35,8 +41,8 @@ st.markdown("""
 }
 
 #luxury-header {
-    background: linear-gradient(120deg, #FFFCF8, #F4E5E5);
-    border: 1px solid #DCC2B5;
+    background: linear-gradient(120deg, #FFFDF9, #F5EBE6);
+    border: 1px solid #D7C4B7;
     border-radius: 20px;
     padding: 25px 20px;
     text-align: center;
@@ -45,7 +51,7 @@ st.markdown("""
 
 .top-label {
     font-family: 'Cormorant Garamond', serif;
-    color: #A47748;
+    color: #8C5A3C !important; /* Golden Warm Brown */
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 2px;
@@ -53,7 +59,7 @@ st.markdown("""
 
 .main-title {
     font-family: 'UnifrakturMaguntia', serif;
-    color: #63283B;
+    color: #3E2723 !important; /* Deep Espresso Brown */
     font-size: 42px;
     line-height: 1.3;
     margin: 12px 0;
@@ -61,13 +67,13 @@ st.markdown("""
 
 .subtitle {
     font-family: 'Pinyon Script', cursive;
-    color: #795361;
+    color: #6D4C41 !important; /* Soft Warm Brown */
     font-size: 25px;
 }
 
 .panel {
     background: #FFFEFC;
-    border: 1px solid #E6D4D0;
+    border: 1px solid #E6D8CE;
     border-radius: 18px;
     padding: 22px;
     margin-bottom: 15px;
@@ -75,31 +81,32 @@ st.markdown("""
 
 .section-title {
     font-family: 'Pinyon Script', cursive;
-    color: #75384D;
+    color: #5C3A21 !important; /* Rich Brown */
     font-size: 32px;
 }
 
 .result-number {
     font-family: 'Cormorant Garamond', serif;
-    color: #63283B;
+    color: #3E2723 !important;
     font-size: 54px;
     font-weight: 700;
 }
 
 .result-category {
-    background: #F4E5E5;
-    color: #75384D;
-    border: 1px solid #DCC2B5;
+    background: #F2E3D5;
+    color: #4A2E2B !important;
+    border: 1px solid #CDB4A0;
     padding: 9px 14px;
     border-radius: 10px;
     font-weight: 600;
     display: inline-block;
 }
 
+/* Primary Button Styling */
 div.stButton > button {
-    background: #85445B;
-    color: white;
-    border: 1px solid #B28A63;
+    background: #5C3A21;
+    color: #FFFDF9 !important;
+    border: 1px solid #8C5A3C;
     border-radius: 12px;
     min-height: 48px;
     font-family: 'Cormorant Garamond', serif;
@@ -108,26 +115,32 @@ div.stButton > button {
 }
 
 div.stButton > button:hover {
-    background: #6B3047;
-    color: white;
-    border: 1px solid #B28A63;
+    background: #4A2E2B;
+    color: #FFFDF9 !important;
+    border: 1px solid #8C5A3C;
 }
 
+/* Metrics and Streamlit Cards */
 [data-testid="stMetric"] {
     background: #FFFEFC;
-    border: 1px solid #E6D4D0;
+    border: 1px solid #E6D8CE;
     border-radius: 14px;
     padding: 15px;
+}
+
+[data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
+    color: #4A2E2B !important;
 }
 
 label, p, li {
     font-family: 'Cormorant Garamond', serif;
     font-size: 17px;
+    color: #4A2E2B !important;
 }
 
 .footer {
     text-align: center;
-    color: #88777A;
+    color: #7D6356 !important; /* Muted Warm Brown */
     font-family: 'Cormorant Garamond', serif;
     font-size: 14px;
     padding: 20px 5px;
@@ -354,7 +367,7 @@ with right:
 
         st.markdown(
             f'<div class="result-number">{prediction:.1f}'
-            f'<span style="font-size:24px"> / 100</span></div>',
+            f'<span style="font-size:24px; color:#4A2E2B !important;"> / 100</span></div>',
             unsafe_allow_html=True
         )
 
