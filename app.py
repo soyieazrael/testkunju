@@ -16,7 +16,7 @@ st.set_page_config(
 )
 
 # --------------------------------------------------
-# 2. BROWN EDITORIAL DESIGN
+# 2. BROWN EDITORIAL DESIGN & STYLING
 # --------------------------------------------------
 
 st.markdown("""
@@ -26,12 +26,12 @@ st.markdown("""
 /* Global App Styling */
 .stApp {
     background: #FDFBF7;
-    color: #4A2E2B; /* Dark Brown */
+    color: #4A2E2B;
 }
 
 /* Force all general text elements to brown */
 p, div, span, label, li, h1, h2, h3, h4, h5, h6 {
-    color: #4A2E2B !important;
+    color: #4A2E2B;
 }
 
 .block-container {
@@ -40,7 +40,7 @@ p, div, span, label, li, h1, h2, h3, h4, h5, h6 {
     padding-bottom: 2rem;
 }
 
-#luxury-header {
+.luxury-header-box {
     background: linear-gradient(120deg, #FFFDF9, #F5EBE6);
     border: 1px solid #D7C4B7;
     border-radius: 20px;
@@ -51,37 +51,29 @@ p, div, span, label, li, h1, h2, h3, h4, h5, h6 {
 
 .top-label {
     font-family: 'Cormorant Garamond', serif;
-    color: #8C5A3C !important; /* Golden Warm Brown */
+    color: #8C5A3C !important;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 2px;
 }
 
-.main-title {
+.main-title-custom {
     font-family: 'UnifrakturMaguntia', serif;
-    color: #3E2723 !important; /* Deep Espresso Brown */
+    color: #3E2723 !important;
     font-size: 42px;
     line-height: 1.3;
     margin: 12px 0;
 }
 
-.subtitle {
+.subtitle-custom {
     font-family: 'Pinyon Script', cursive;
-    color: #6D4C41 !important; /* Soft Warm Brown */
+    color: #6D4C41 !important;
     font-size: 25px;
-}
-
-.panel {
-    background: #FFFEFC;
-    border: 1px solid #E6D8CE;
-    border-radius: 18px;
-    padding: 22px;
-    margin-bottom: 15px;
 }
 
 .section-title {
     font-family: 'Pinyon Script', cursive;
-    color: #5C3A21 !important; /* Rich Brown */
+    color: #5C3A21 !important;
     font-size: 32px;
 }
 
@@ -102,10 +94,10 @@ p, div, span, label, li, h1, h2, h3, h4, h5, h6 {
     display: inline-block;
 }
 
-/* Primary Button Styling */
+/* Button Styling with White Text */
 div.stButton > button {
-    background: #5C3A21;
-    color: #FFFDF9 !important;
+    background: #5C3A21 !important;
+    color: #FFFFFF !important;
     border: 1px solid #8C5A3C;
     border-radius: 12px;
     min-height: 48px;
@@ -114,13 +106,23 @@ div.stButton > button {
     font-weight: 600;
 }
 
+div.stButton > button p, div.stButton > button span {
+    color: #FFFFFF !important;
+}
+
 div.stButton > button:hover {
-    background: #4A2E2B;
-    color: #FFFDF9 !important;
+    background: #4A2E2B !important;
+    color: #FFFFFF !important;
     border: 1px solid #8C5A3C;
 }
 
-/* Metrics and Streamlit Cards */
+/* Expander and Metrics */
+[data-testid="stExpander"] {
+    background: #FFFEFC;
+    border: 1px solid #E6D8CE;
+    border-radius: 14px;
+}
+
 [data-testid="stMetric"] {
     background: #FFFEFC;
     border: 1px solid #E6D8CE;
@@ -135,15 +137,24 @@ div.stButton > button:hover {
 label, p, li {
     font-family: 'Cormorant Garamond', serif;
     font-size: 17px;
-    color: #4A2E2B !important;
+    color: #4A2E2B;
 }
 
 .footer {
     text-align: center;
-    color: #7D6356 !important; /* Muted Warm Brown */
+    color: #7D6356;
     font-family: 'Cormorant Garamond', serif;
     font-size: 14px;
     padding: 20px 5px;
+}
+
+.watermark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #A89083;
+    text-transform: lowercase;
+    margin-top: 6px;
 }
 
 #MainMenu, footer {
@@ -159,7 +170,6 @@ label, p, li {
 @st.cache_resource
 def train_model():
     np.random.seed(42)
-
     n = 300
 
     attendance = np.random.randint(40, 101, n)
@@ -186,34 +196,26 @@ def train_model():
         "Final_Marks": final_marks.round(1)
     })
 
-    X = df[
-        [
-            "Attendance",
-            "Study_Hours",
-            "Assignment_Completion",
-            "Previous_Marks"
-        ]
-    ]
-
+    X = df[[
+        "Attendance",
+        "Study_Hours",
+        "Assignment_Completion",
+        "Previous_Marks"
+    ]]
     y = df["Final_Marks"]
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X,
-        y,
-        test_size=0.2,
-        random_state=42
+        X, y, test_size=0.2, random_state=42
     )
 
     model = LinearRegression()
     model.fit(X_train, y_train)
 
     test_predictions = model.predict(X_test)
-
     mae = mean_absolute_error(y_test, test_predictions)
     r2 = r2_score(y_test, test_predictions)
 
     return model, mae, r2
-
 
 model, mae, r2 = train_model()
 
@@ -222,17 +224,15 @@ model, mae, r2 = train_model()
 # --------------------------------------------------
 
 st.markdown("""
-<div id="luxury-header">
+<div class="luxury-header-box">
     <div class="top-label">
         Academic Intelligence · Student Edition
     </div>
-
-    <div class="main-title">
+    <div class="main-title-custom">
         🎓 Student Performance Predictor
     </div>
-
-    <div class="subtitle">
-        Understand your progress. Discover opportunities.
+    <div class="subtitle-custom">
+        Understand your progress. Discover opportunities.<br>
         Take the next step with confidence.
     </div>
 </div>
@@ -254,34 +254,22 @@ with left:
 
     attendance = st.slider(
         "Class Attendance (%)",
-        min_value=40,
-        max_value=100,
-        value=85,
-        step=1
+        min_value=40, max_value=100, value=85, step=1
     )
 
     study_hours = st.slider(
         "Daily Study Hours",
-        min_value=0,
-        max_value=8,
-        value=3,
-        step=1
+        min_value=0, max_value=8, value=3, step=1
     )
 
     assignments = st.slider(
         "Assignment Completion (%)",
-        min_value=30,
-        max_value=100,
-        value=80,
-        step=1
+        min_value=30, max_value=100, value=80, step=1
     )
 
     previous_marks = st.slider(
         "Previous Examination Marks",
-        min_value=25,
-        max_value=95,
-        value=70,
-        step=1
+        min_value=25, max_value=95, value=70, step=1
     )
 
     predict_button = st.button(
@@ -293,12 +281,7 @@ with left:
 # 6. PREDICTION FUNCTION
 # --------------------------------------------------
 
-def predict_student(
-    attendance,
-    study_hours,
-    assignments,
-    previous_marks
-):
+def predict_student(attendance, study_hours, assignments, previous_marks):
     student = pd.DataFrame([{
         "Attendance": attendance,
         "Study_Hours": study_hours,
@@ -307,7 +290,6 @@ def predict_student(
     }])
 
     prediction = float(model.predict(student)[0])
-
     prediction = max(0, min(100, prediction))
 
     if prediction >= 80:
@@ -320,32 +302,18 @@ def predict_student(
     suggestions = []
 
     if attendance < 75:
-        suggestions.append(
-            "Attend classes regularly to strengthen your understanding."
-        )
-
+        suggestions.append("Attend classes regularly to strengthen your understanding.")
     if study_hours < 2:
-        suggestions.append(
-            "Set aside more time for daily revision."
-        )
-
+        suggestions.append("Set aside more time for daily revision.")
     if assignments < 75:
-        suggestions.append(
-            "Try to complete assignments on time."
-        )
-
+        suggestions.append("Try to complete assignments on time.")
     if previous_marks < 50:
-        suggestions.append(
-            "Revise the basics and practise questions regularly."
-        )
+        suggestions.append("Revise the basics and practise questions regularly.")
 
     if not suggestions:
-        suggestions.append(
-            "Maintain your study routine and revise regularly."
-        )
+        suggestions.append("Maintain your study routine and revise regularly.")
 
     return prediction, category, suggestions
-
 
 # --------------------------------------------------
 # 7. RESULTS PANEL
@@ -359,15 +327,12 @@ with right:
 
     if predict_button:
         prediction, category, suggestions = predict_student(
-            attendance,
-            study_hours,
-            assignments,
-            previous_marks
+            attendance, study_hours, assignments, previous_marks
         )
 
         st.markdown(
             f'<div class="result-number">{prediction:.1f}'
-            f'<span style="font-size:24px; color:#4A2E2B !important;"> / 100</span></div>',
+            f'<span style="font-size:24px; color:#4A2E2B;"> / 100</span></div>',
             unsafe_allow_html=True
         )
 
@@ -378,18 +343,14 @@ with right:
         )
 
         st.write("")
-
         st.write("**Estimated performance indicator**")
         st.progress(int(round(prediction)))
 
         st.write("**Personalised study suggestions**")
-
         for suggestion in suggestions:
             st.markdown(f"- {suggestion}")
 
-        st.caption(
-            "This is an estimate, not a guaranteed examination result."
-        )
+        st.caption("This is an estimate, not a guaranteed examination result.")
 
     else:
         st.info(
@@ -409,15 +370,8 @@ with st.expander("About the AI model"):
 
     col1, col2 = st.columns(2)
 
-    col1.metric(
-        "Mean Absolute Error",
-        f"{mae:.2f} marks"
-    )
-
-    col2.metric(
-        "R² Score",
-        f"{r2:.3f}"
-    )
+    col1.metric("Mean Absolute Error", f"{mae:.2f} marks")
+    col2.metric("R² Score", f"{r2:.3f}")
 
     st.caption(
         "These evaluation results use a held-out portion of synthetic "
@@ -425,14 +379,14 @@ with st.expander("About the AI model"):
     )
 
 # --------------------------------------------------
-# 9. FOOTER
+# 9. FOOTER & WATERMARK
 # --------------------------------------------------
 
 st.markdown("""
 <div class="footer">
     STUDENT ACADEMIC PERFORMANCE PREDICTOR<br>
-    A Machine Learning Learning Project<br><br>
-    Designed to encourage learning, reflection and improvement.
+    A Machine Learning Learning Project<br>
+    <div class="watermark">by gwad soyie azrael to kunju</div>
 </div>
 """, unsafe_allow_html=True)
 
